@@ -11,12 +11,12 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class QnTemplateResolver extends TemplateResolver {
+public class QnTemplateResolver2 extends TemplateResolver {
 
     @Override
-    public void execute(List<Integer> templateIds, List<TemplateListDto> optionalTemplates, List<TemplateListDto> requiredTemplates) {
-        if (CollectionUtils.isNotEmpty(templateIds) && CollectionUtils.isNotEmpty(optionalTemplates)) {
-            //有必发, 有补发
+    public void execute(List<Integer> templateIds, List<TemplateListDto> optionalTemplates,
+        List<TemplateListDto> requiredTemplates) {
+        if (CollectionUtils.isNotEmpty(templateIds)) {
             //由于老的模板消息必发与补发是隔离的，先发所有的必发，必发都失败的用户再根据优先级补发
             //消息中心2.0为了尽可能兼容老的模板消息,将补发模板作为最后一个必发模板对应的补发模板
             for (int i = 0 ;i < templateIds.size(); i++) {
@@ -28,20 +28,13 @@ public class QnTemplateResolver extends TemplateResolver {
                 requiredTemplates.add(template);
             }
         } else {
-            //必发
-            if (CollectionUtils.isNotEmpty(templateIds)) {
-                for (Integer templateId : templateIds) {
-                    TemplateListDto template = new TemplateListDto();
-                    template.setTemplateId(templateId);
-                    requiredTemplates.add(template);
-                }
+            //没有必发，将优先级最高的补发作为必发
+            TemplateListDto template = new TemplateListDto();
+            template.setTemplateId(optionalTemplates.get(0).getTemplateId());
+            if (optionalTemplates.size() > 1) {
+                template.setOptionalTemplates(optionalTemplates.subList(1, optionalTemplates.size()));
             }
-            //补发
-            if (CollectionUtils.isNotEmpty(optionalTemplates)) {
-                TemplateListDto template = new TemplateListDto();
-                template.setOptionalTemplates(optionalTemplates);
-                requiredTemplates.add(template);
-            }
+            requiredTemplates.add(template);
         }
     }
 

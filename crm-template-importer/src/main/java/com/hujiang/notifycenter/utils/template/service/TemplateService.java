@@ -3,6 +3,7 @@ package com.hujiang.notifycenter.utils.template.service;
 import com.hujiang.notifycenter.template.common.Helper;
 import com.hujiang.notifycenter.utils.template.core.CrmTemplateResolver;
 import com.hujiang.notifycenter.utils.template.core.QnTemplateResolver;
+import com.hujiang.notifycenter.utils.template.core.QnTemplateResolver2;
 import com.hujiang.notifycenter.utils.template.model.dto.CrmTemplateGroupDto;
 
 import org.apache.commons.lang3.StringUtils;
@@ -39,8 +40,11 @@ public class TemplateService {
     @Autowired
     private CrmTemplateResolver crmTemplateResolver;
 
+/*    @Autowired
+    private QnTemplateResolver qnTemplateResolver;*/
+
     @Autowired
-    private QnTemplateResolver qnTemplateResolver;
+    private QnTemplateResolver2 qnTemplateResolver;
 
     public void importCrm(String source) {
         if (StringUtils.isNotBlank(source)) {

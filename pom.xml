@@ -34,7 +34,7 @@
 		<mysql-connector-java.version>5.1.37</mysql-connector-java.version>
 		<spring.boot.version>1.4.7.RELEASE</spring.boot.version>
 		<notifycenter-template-common.version>0.0.1-SNAPSHOT</notifycenter-template-common.version>
-		<qingniao-facade.version>201903111020-RELEASE</qingniao-facade.version>
+		<qingniao-facade.version>0.1-SNAPSHOT</qingniao-facade.version>
 		<crm-template-importer.version>0.0.1-SNAPSHOT</crm-template-importer.version>
 		<notifycenter-common.version>0.0.8-SNAPSHOT</notifycenter-common.version>
 		<argLine>0.0.1-Xmx1G</argLine>
