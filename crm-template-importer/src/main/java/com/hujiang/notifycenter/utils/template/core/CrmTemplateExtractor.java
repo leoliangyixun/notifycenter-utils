@@ -15,6 +15,8 @@ import com.hujiang.notifycenter.utils.template.model.po.CrmMsgTemplatePo;
 import com.hujiang.notifycenter.utils.template.model.po.CrmTemplateContentPo;
 import com.hujiang.notifycenter.utils.template.model.po.CrmTemplateRulePo;
 
+import com.google.common.collect.Lists;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,7 +35,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
-public class CrmTemplateResolver {
+public class CrmTemplateExtractor {
 
     @Autowired
     private CrmMsgTemplateDao crmMsgTemplateDao;
@@ -43,7 +45,7 @@ public class CrmTemplateResolver {
     private CrmTemplateContentDao crmTemplateContentDao;
 
     @TargetDataSource("template")
-    public List<CrmTemplateGroupDto> resolve(List<Integer> ids) {
+    public List<CrmTemplateGroupDto> extract(List<Integer> ids) {
         List<CrmMsgTemplatePo> list1 = crmMsgTemplateDao.query(new Query<>(new CrmMsgTemplateCriteria(ids)));
         List<CrmTemplateRulePo> list2 = crmTemplateRuleDao.query(new Query<>(new CrmTemplateRuleCriteria(ids)));
 
@@ -105,5 +107,19 @@ public class CrmTemplateResolver {
 
         return null;
     }
+
+/*    public static void main(String[] args) throws Exception {
+        List<Integer> ids = Lists.newArrayList(5641, 5642, 5643, 5644, 5645, 5646, 5647, 5648, 5649, 5650, 5651);
+        StringBuilder sb = new StringBuilder("(");
+        for (int i = 0; i < ids.size() ; i++) {
+            if (i == ids.size() - 1) {
+                sb.append("'").append("CRM导入[" + Helper.encrypt(String.valueOf(ids.get(i))) + "]").append("'");
+            } else {
+                sb.append("'").append("CRM导入[" + Helper.encrypt(String.valueOf(ids.get(i))) + "]").append("'").append(", ");
+            }
+        }
+        sb.append(")");
+        System.out.println(sb.toString());
+    }*/
 
 }

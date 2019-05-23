@@ -3,6 +3,7 @@ package com.hujiang.notifycenter.utils.template.model.po;
 import com.hujiang.basic.framework.core.util.JsonUtil;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
@@ -13,7 +14,8 @@ import java.io.Serializable;
  * @description
  */
 @Data
-public class CrmTemplateRulePo implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class CrmTemplateRulePo extends BasePo {
     // 模版Id
     private Integer templateId;
     // 模版内容Id

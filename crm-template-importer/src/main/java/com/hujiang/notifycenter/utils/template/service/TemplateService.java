@@ -1,8 +1,7 @@
 package com.hujiang.notifycenter.utils.template.service;
 
 import com.hujiang.notifycenter.template.common.Helper;
-import com.hujiang.notifycenter.utils.template.core.CrmTemplateResolver;
-import com.hujiang.notifycenter.utils.template.core.QnTemplateResolver;
+import com.hujiang.notifycenter.utils.template.core.CrmTemplateExtractor;
 import com.hujiang.notifycenter.utils.template.core.QnTemplateResolver2;
 import com.hujiang.notifycenter.utils.template.model.dto.CrmTemplateGroupDto;
 
@@ -38,7 +37,7 @@ import java.util.stream.Stream;
 public class TemplateService {
 
     @Autowired
-    private CrmTemplateResolver crmTemplateResolver;
+    private CrmTemplateExtractor crmTemplateExtractor;
 
 /*    @Autowired
     private QnTemplateResolver qnTemplateResolver;*/
@@ -69,7 +68,7 @@ public class TemplateService {
                 return null;
             }).collect(Collectors.toList());
 
-            List<CrmTemplateGroupDto> list = crmTemplateResolver.resolve(ids);
+            List<CrmTemplateGroupDto> list = crmTemplateExtractor.extract(ids);
             System.out.println(list);
             qnTemplateResolver.resolve(list);
         }

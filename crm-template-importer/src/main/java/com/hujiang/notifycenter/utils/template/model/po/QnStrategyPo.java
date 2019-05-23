@@ -4,6 +4,7 @@ import com.hujiang.basic.framework.core.util.JsonUtil;
 import com.hujiang.notifycenter.common.consts.MsgLevel;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
@@ -14,8 +15,8 @@ import java.io.Serializable;
  * @description
  */
 @Data
-public class QnStrategyPo implements Serializable {
-    private Integer id;
+@EqualsAndHashCode(callSuper = true)
+public class QnStrategyPo extends BasePo {
     private String appKey;
     private String title;
     private MsgLevel msgLevel;

@@ -4,6 +4,7 @@ import com.hujiang.basic.framework.core.util.JsonUtil;
 import com.hujiang.notifycenter.qingniao.model.dto.TemplateInfoDto;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
@@ -14,7 +15,8 @@ import java.io.Serializable;
  * @description
  */
 @Data
-public class QnTemplateGroupPo implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class QnTemplateGroupPo extends BasePo {
     private String appKey;
     private Integer strategyId;
     private String title;

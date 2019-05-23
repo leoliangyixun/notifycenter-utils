@@ -5,6 +5,7 @@ import com.hujiang.notifycenter.common.consts.MsgLevel;
 import com.hujiang.notifycenter.qingniao.constants.MsgType;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
@@ -15,8 +16,8 @@ import java.io.Serializable;
  * @description
  */
 @Data
-public class QnTemplateContentPo implements Serializable {
-    private Integer id;
+@EqualsAndHashCode(callSuper = true)
+public class QnTemplateContentPo extends BasePo {
     private String appKey;
     private MsgLevel msgLevel;
     private String title;
