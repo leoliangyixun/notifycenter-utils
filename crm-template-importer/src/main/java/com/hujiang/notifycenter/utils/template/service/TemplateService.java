@@ -1,12 +1,17 @@
 package com.hujiang.notifycenter.utils.template.service;
 
+import com.hujiang.basic.framework.core.util.JsonUtil;
 import com.hujiang.notifycenter.template.common.Helper;
-import com.hujiang.notifycenter.utils.template.core.CrmTemplateExtractor;
-import com.hujiang.notifycenter.utils.template.core.QnTemplateResolver2;
-import com.hujiang.notifycenter.utils.template.model.dto.CrmTemplateGroupDto;
+import com.hujiang.notifycenter.utils.template.core.model.dto.CrmMsgTemplateDto;
+import com.hujiang.notifycenter.utils.template.core.resolver.CrmTemplateExporter;
+import com.hujiang.notifycenter.utils.template.core.resolver.QnTemplateImporter2;
+import com.hujiang.notifycenter.utils.template.core.resolver.TemplateImporter;
+
+import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.BadPaddingException;
@@ -22,55 +27,38 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * 将消息中心1.0老的对接CRM的模板消息系统的模板导入消息中心2.0青鸟系统
- *
- * CRM               2.0(qingniao)
- * MsgTemplatePo     StrategyPo
- * TemplateRulePo    TemplateGroupPo
- * TemplateContentPo TemplateContentPo
  * @author yangkai
- * @date 2019-03-25
+ * @date 2019-05-31
  * @email yangkai@hujiang.com
  * @description
  */
+@Slf4j
 @Service
 public class TemplateService {
 
-    @Autowired
-    private CrmTemplateExtractor crmTemplateExtractor;
-
-/*    @Autowired
-    private QnTemplateResolver qnTemplateResolver;*/
+    @Value("${crm.templateIds}")
+    private String source;
 
     @Autowired
-    private QnTemplateResolver2 qnTemplateResolver;
+    private CrmTemplateExporter crmTemplateExporter;
 
-    public void importCrm(String source) {
+    @Autowired
+    private QnTemplateImporter2 qnTemplateImporter;
+
+    public void importCrm() {
         if (StringUtils.isNotBlank(source)) {
             List<Integer> ids = Stream.of(StringUtils.split(source, ",")).map(e -> {
                 try {
                     return Integer.valueOf(Helper.decrypt(e));
-                } catch (InvalidKeyException e1) {
-                    e1.printStackTrace();
-                } catch (InvalidKeySpecException e1) {
-                    e1.printStackTrace();
-                } catch (NoSuchAlgorithmException e1) {
-                    e1.printStackTrace();
-                } catch (NoSuchPaddingException e1) {
-                    e1.printStackTrace();
-                } catch (InvalidAlgorithmParameterException e1) {
-                    e1.printStackTrace();
-                } catch (IllegalBlockSizeException e1) {
-                    e1.printStackTrace();
-                } catch (BadPaddingException e1) {
-                    e1.printStackTrace();
+                } catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException | InvalidAlgorithmParameterException | NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeySpecException ex) {
+                    ex.printStackTrace();
                 }
                 return null;
             }).collect(Collectors.toList());
 
-            List<CrmTemplateGroupDto> list = crmTemplateExtractor.extract(ids);
-            System.out.println(list);
-            qnTemplateResolver.resolve(list);
+            List<CrmMsgTemplateDto> list = crmTemplateExporter.export(ids);
+            log.info("crm template export data: {}", JsonUtil.object2JSON(list));
+            qnTemplateImporter.resolve(list);
         }
     }
 

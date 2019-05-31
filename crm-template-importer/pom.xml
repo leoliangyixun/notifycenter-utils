@@ -13,27 +13,14 @@
 	<artifactId>crm-template-importer</artifactId>
 	<packaging>jar</packaging>
 	<name>crm-template-importer</name>
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<dependencies>
 		<dependency>
-			<groupId>com.hujiang.basic.framework</groupId>
-			<artifactId>hujiang-framework-rest</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>com.hujiang.notifycenter</groupId>
-			<artifactId>qingniao-facade</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.hujiang.notifycenter</groupId>
-			<artifactId>notifycenter-template-common</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.hujiang.notifycenter</groupId>
-			<artifactId>notifycenter-common</artifactId>
+			<artifactId>crm-template-core</artifactId>
 		</dependency>
 	</dependencies>
 

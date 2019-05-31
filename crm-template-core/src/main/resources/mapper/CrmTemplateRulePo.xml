@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hujiang.notifycenter.utils.template.core.dao.CrmTemplateRuleDao">
+    <resultMap id="BaseResultMap" type="com.hujiang.notifycenter.utils.template.core.model.po.CrmTemplateRulePo">
+        <result column="TemplateId" property="templateId" />
+        <result column="TemplateContentId" property="templateContentId" />
+        <result column="SortBy" property="sortBy" />
+        <result column="IsNecessary" property="isNecessary" />
+        <result column="appId" property="appId" />
+    </resultMap>
+
+    <select id="query" resultMap="BaseResultMap" parameterType="com.hujiang.notifycenter.utils.template.core.model.Query">
+        SELECT
+          TemplateId, TemplateContentId, SortBy, IsNecessary, appId
+        FROM templaterule
+        <where>
+            TemplateId IN
+            <foreach collection="criteria.tids"  item="templateId" open="(" separator="," close=")">
+                #{templateId}
+            </foreach>
+        </where>
+    </select>
+
+</mapper>

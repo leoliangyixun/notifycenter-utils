@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hujiang.notifycenter.utils.template.core.dao.QnTemplateContentDao">
+	<resultMap id="BaseResultMap" type="com.hujiang.notifycenter.utils.template.core.model.po.QnTemplateContentPo">
+		<result column="app_key" property="appKey" />
+		<result column="msg_level" property="msgLevel" />
+		<result column="title" property="title" />
+		<result column="msg_type" property="msgType" />
+		<result column="content" property="content" />
+		<result column="status" property="status" />
+	</resultMap>
+
+	<insert id="insert" parameterType="com.hujiang.notifycenter.utils.template.core.model.po.QnTemplateContentPo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO template_content (app_key, msg_level, title, msg_type, content, status)
+		VALUES (#{appKey}, #{msgLevel}, #{title}, #{msgType}, #{content},#{status})
+	</insert>
+	
+	<insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO template_content (app_key, msg_level, title, msg_type, content, status) VALUES
+			<foreach collection="list"  item="item" separator="," >
+				 (#{item.appKey},#{item.msgLevel},#{item.title},#{item.msgType},#{item.content},#{item.status})
+			</foreach>
+	</insert>
+
+	<select id="query" resultMap="BaseResultMap" parameterType="com.hujiang.notifycenter.utils.template.core.model.Query">
+		SELECT * FROM template_content c
+		<where>
+			<if test="criteria.cids != null and !criteria.cids.isEmpty()">
+				g.id IN
+				<foreach collection="criteria.cids"  item="cid" open="(" separator="," close=")">
+					#{cid}
+				</foreach>
+			</if>
+		</where>
+	</select>
+
+</mapper>

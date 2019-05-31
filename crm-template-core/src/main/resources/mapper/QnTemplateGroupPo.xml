@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hujiang.notifycenter.utils.template.core.dao.QnTemplateGroupDao">
+	<resultMap id="BaseResultMap" type="com.hujiang.notifycenter.utils.template.core.model.po.QnTemplateGroupPo">
+		<result column="app_key" property="appKey" />
+		<result column="strategy_id" property="strategyId" />
+		<result column="title" property="title" />
+		<result column="template_info" property="templateInfo" />
+		<result column="description" property="description" />
+		<result column="status" property="status" />
+	</resultMap>
+
+	<insert id="insert" parameterType="com.hujiang.notifycenter.utils.template.core.model.po.QnTemplateGroupPo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO template_group (app_key, strategy_id, title, template_info, description, status)
+		VALUES (#{appKey}, #{strategyId}, #{title}, #{templateInfo}, #{description}, #{status})
+	</insert>
+
+	<insert id="insertBatch" parameterType="java.util.List"  useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO template_group (app_key, strategy_id, title, template_info, description, status) VALUES
+			<foreach collection="list"  item="item" separator="," >
+				 (#{item.id},#{item.appKey},#{item.strategyId},#{item.title},#{item.templateInfo}, #{item.description}, #{item.status})
+			</foreach>
+	</insert>
+
+	<select id="query" resultMap="BaseResultMap" parameterType="com.hujiang.notifycenter.utils.template.core.model.Query">
+		SELECT * FROM template_group g
+		<where>
+			<if test="criteria.sids != null and !criteria.sids.isEmpty()">
+				g.strategy_id IN
+				<foreach collection="criteria.sids"  item="sid" open="(" separator="," close=")">
+					#{sid}
+				</foreach>
+			</if>
+		</where>
+	</select>
+	
+</mapper>

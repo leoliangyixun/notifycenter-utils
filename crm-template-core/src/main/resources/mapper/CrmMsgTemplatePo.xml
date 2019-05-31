@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hujiang.notifycenter.utils.template.core.dao.CrmMsgTemplateDao">
+    <resultMap id="BaseResultMap" type="com.hujiang.notifycenter.utils.template.core.model.po.CrmMsgTemplatePo">
+        <id column="id" property="id"/>
+        <result column="Title" property="title" />
+        <result column="AppName" property="appName" />
+        <result column="Level" property="level" />
+    </resultMap>
+
+    <select id="query" resultMap="BaseResultMap" parameterType="com.hujiang.notifycenter.utils.template.core.model.Query">
+        SELECT
+          id, Title, AppName, Level
+        FROM msgtemplate
+        <where>
+            Id IN
+            <foreach collection="criteria.tids"  item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+</mapper>

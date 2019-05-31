@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hujiang.notifycenter.utils.template.core.dao.QnStrategyDao">
+    <resultMap id="BaseResultMap" type="com.hujiang.notifycenter.utils.template.core.model.po.QnStrategyPo">
+        <id column="id" property="id"/>
+        <result column="app_key" property="appKey" />
+        <result column="msg_level" property="msgLevel" />
+        <result column="title" property="title" />
+        <result column="description" property="description" />
+        <result column="status" property="status" />
+    </resultMap>
+
+    <insert id="insert" parameterType="com.hujiang.notifycenter.utils.template.core.model.po.QnStrategyPo" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+          strategy (app_key, msg_level, title, description, status)
+        VALUES ( #{appKey}, #{msgLevel}, #{title}, #{description}, #{status})
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id" >
+        INSERT INTO strategy (app_key, msg_level, title, description, status) VALUES
+        <foreach collection="list"  item="item" separator="," >
+            (#{item.appKey},#{item.msgLevel},#{item.title},#{item.description},#{item.status})
+        </foreach>
+    </insert>
+
+
+    <select id="query" resultMap="BaseResultMap" parameterType="com.hujiang.notifycenter.utils.template.core.model.Query">
+        SELECT
+          app_key, msg_level, title, description, status
+        FROM strategy
+        <where>
+            <if test="criteria.sids != null and !criteria.sids.isEmpty()">
+                id IN
+                <foreach collection="criteria.sids"  item="sid" open="(" separator="," close=")">
+                    #{sid}
+                </foreach>
+                <if test="criteria.description != null"> AND description like '%${description}%'</if>
+            </if>
+        </where>
+    </select>
+
+
+    <select id="queryAll" resultMap="BaseResultMap">
+        SELECT
+        app_key, msg_level, title, description, status
+        FROM strategy
+    </select>
+</mapper>

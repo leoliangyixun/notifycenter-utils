@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hujiang.notifycenter.utils.template.core.dao.CrmTemplateGroupDao">
+    <resultMap id="BaseResultMap" type="com.hujiang.notifycenter.utils.template.core.model.po.CrmTemplateGroupPo">
+        <result column="Title" property="title" />
+        <result column="AppName" property="appName" />
+        <result column="Level" property="level" />
+
+        <result column="TemplateId" property="templateId" />
+        <result column="TemplateContentId" property="templateContentId" />
+        <result column="SortBy" property="sortBy" />
+        <result column="IsNecessary" property="isNecessary" />
+        <result column="appId" property="appId" />
+
+        <result column="Content" property="content" />
+        <result column="Type" property="type" />
+    </resultMap>
+
+    <select id="query" resultMap="BaseResultMap" parameterType="com.hujiang.notifycenter.utils.template.core.model.Query">
+        SELECT
+          t.*, r. *, c.*
+        FROM msgtemplate t
+        LEFT JOIN templaterule r ON r.TemplateId = t.Id
+        LEFT JOIN templatecontent c ON r.TemplateContentId = c.id
+        <where>
+            <if test="criteria.tids != null and !criteria.tids.isEmpty()">
+              r.TemplateId IN
+              <foreach collection="criteria.tids"  item="tid" open="(" separator="," close=")">
+               #{tid}
+               </foreach>
+            </if>
+            <if test="criteria.cids != null and !criteria.cids.isEmpty()">
+              r.TemplateContentId IN
+              <foreach collection="criteria.cids"  item="cid" open="(" separator="," close=")">
+               #{cid}
+              </foreach>
+            </if>
+            <if test="criteria.appName != null"> AND t.AppName = #{criteria.appName}</if>
+            <if test="criteria.appId != null"> AND r.appId = #{criteria.appId}</if>
+            <if test="criteria.type != null"> AND r.Type = #{criteria.type}</if>
+            AND r.TemplateId IS NOT NULL
+            <!--QQ && TTS 不导入-->
+            AND c.Type != 3 AND c.Type != 6;
+        </where>
+    </select>
+
+</mapper>

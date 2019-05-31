@@ -15,6 +15,8 @@
 	</parent>
 	<modules>
 		<module>crm-template-importer</module>
+		<module>crm-template-full-importer</module>
+		<module>crm-template-core</module>
 	</modules>
 	<distributionManagement>
 		<repository>
@@ -34,8 +36,8 @@
 		<mysql-connector-java.version>5.1.37</mysql-connector-java.version>
 		<spring.boot.version>1.4.7.RELEASE</spring.boot.version>
 		<notifycenter-template-common.version>0.0.1-SNAPSHOT</notifycenter-template-common.version>
-		<qingniao-facade.version>0.1-SNAPSHOT</qingniao-facade.version>
-		<crm-template-importer.version>0.0.1-SNAPSHOT</crm-template-importer.version>
+		<qingniao-facade.version>201905281700-SNAPSHOT</qingniao-facade.version>
+		<crm-template.version>0.0.1-SNAPSHOT</crm-template.version>
 		<notifycenter-common.version>0.0.8-SNAPSHOT</notifycenter-common.version>
 		<argLine>0.0.1-Xmx1G</argLine>
 	</properties>
@@ -44,8 +46,18 @@
 		<dependencies>
 			<dependency>
 				<groupId>com.hujiang.notifycenter</groupId>
+				<artifactId>crm-template-core</artifactId>
+				<version>${crm-template.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hujiang.notifycenter</groupId>
 				<artifactId>crm-template-importer</artifactId>
-				<version>${crm-template-importer.version}</version>
+				<version>${crm-template.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hujiang.notifycenter</groupId>
+				<artifactId>crm-template-full-importer</artifactId>
+				<version>${crm-template.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.hujiang.notifycenter</groupId>

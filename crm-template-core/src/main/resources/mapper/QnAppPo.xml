@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hujiang.notifycenter.utils.template.core.dao.QnAppDao">
+    <resultMap id="BaseResultMap" type="com.hujiang.notifycenter.utils.template.core.model.po.QnAppPo">
+        <result column="name" property="name" />
+        <result column="app_key" property="appKey" />
+        <result column="app_secret" property="appSecret" />
+    </resultMap>
+
+    <select id="query" resultMap="BaseResultMap" parameterType="com.hujiang.notifycenter.utils.template.core.model.Query">
+        SELECT name, app_key, app_secret FROM app where name = #{criteria.name}
+    </select>
+</mapper>
